@@ -47,17 +47,67 @@ void Mergesort(vector<int>& items) {
 
 //linklist-version
 
-void merge() {
-    
+class ListNode {
+public:
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+
+//返回值为指向中间那个结点的指针
+ListNode* middleNode(ListNode *head) {
+    ListNode *slow = head, *fast = head;
+    while (fast && fast->next && fast->next->next) {
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    return slow;
 }
 
 
-void mergesort_linklist(){
-
+//返回值为merge后的链表的头节点
+ListNode* merge(ListNode *l1, ListNode *l2) {
+    ListNode dummy(0), *p = &dummy;
+    while (l1 && l2) {
+        if (l1 -> val < l2 -> val) {
+            p -> next = l1;
+            l1 = l1 -> next;    
+        } else {
+            p -> next = l2;
+            l2 = l2 -> next;
+        }
+        p = p -> next;
+    }
+    p -> next = l1 ? l1 : l2;
+    return dummy.next;
 }
 
-void Mergesort_linklist(){
 
+// 返回值为sort后的链表的头节点
+ListNode* mergesort_linklist(ListNode *head){
+    if (!head || !head -> next) {
+        return head;
+    }
+    ListNode *mid = middleNode(head);
+    ListNode *p = mid -> next;
+    mid -> next = nullptr;
+    ListNode *left = mergesort_linklist(head);
+    ListNode *right = mergesort_linklist(p);
+    return merge(left, right);
+}
+
+ListNode* create_linklist(vector<int> arr) {
+    int size = arr.size();
+    if (!size) {
+        return nullptr;
+    }
+    ListNode *head = new ListNode(arr[0]), *cur = head;
+    for (int i = 1; i < size; ++i) {
+        cur -> next = new ListNode(arr[i]);
+        cur = cur -> next; 
+    }
+    return head;
 }
 
 
@@ -72,9 +122,10 @@ int main() {
         while (iss >> num) {
             nums.push_back(num);
         }
-        Mergesort(nums);
-        for(int a : nums) {
-            cout << a << " ";
+        ListNode *input = create_linklist(nums);
+        ListNode *result = mergesort_linklist(input);
+        for (ListNode *p = result; p != nullptr; p = p -> next) {
+            cout << p -> val << " ";
         }
         cout << endl;
     }
