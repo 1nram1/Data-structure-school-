@@ -31,7 +31,7 @@ public:
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < pw - 1; ++j) {
                 pre = p;
-                p = (!p -> next) ? dummy -> next : p -> next;
+                p = (!(p -> next)) ? dummy -> next : p -> next;
             }
             result.push_back(p -> val);
             //这个if语句，是为了处理当链表中只剩下一个结点的情况

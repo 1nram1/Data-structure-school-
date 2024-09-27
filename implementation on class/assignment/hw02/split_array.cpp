@@ -15,16 +15,7 @@ void split_array (vector<int> arr, int k1, int k2, int N) {
             bewteen_k1_and_k2.push_back(arr[i]);
         }
     }
-    for (int num : less_than_k1) {
-        cout << num << " ";
-    }
-     for (int num : bewteen_k1_and_k2) {
-        cout << num << " ";
-    }
-     for (int num : greater_than_k2) {
-        cout << num << " ";
-    }
-    cout << endl;
+    cout << less_than_k1.size() - 1 << " " << less_than_k1.size() + bewteen_k1_and_k2.size() << endl;
 }
 
 
